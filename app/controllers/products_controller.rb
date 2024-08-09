@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authenticate_request
+  before_action :set_product, only: [:show, :update, :destroy]
 
   def index
     @products = Product.all
@@ -7,7 +8,6 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find(params[:id])
     render json: @product
   end
 
@@ -35,6 +35,11 @@ class ProductsController < ApplicationController
   end
 
   private
+
+  def set_product
+    @product = Product.find_by(id: params[:id])
+    render json: { error: 'Product not found' }, status: :not_found unless @product
+  end
 
   def product_params
     params.require(:product).permit(:name, :description, :price)
