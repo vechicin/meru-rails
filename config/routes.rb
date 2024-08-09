@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :products
+
+  resources :users, only: [:create, :index]
+
+  post 'login', to: 'sessions#create'
+  post 'refresh', to: 'sessions#refresh'
+  post 'logout', to: 'sessions#logout'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
